@@ -2,7 +2,7 @@ __precompile__()
 
 module JUnitTestSets
 
-export JUnitTestSet, write_report, @jtestset, @jtest
+export JUnitTestSet, write_report, check_test_results, @jtestset, @jtest
 
 using Test, Dates
 include("JTestResult.jl")
@@ -29,6 +29,15 @@ function evaluate_tests(arr)::JUnitTestSet
     return JUnitTestSet("tests", "Julia Tests", tests, failures, etime, evals)
 end
 
+function check_test_results(ts::JUnitTestSet)
+    # Return 1 if any tests have failed, otherwise return 0. Handy for CI
+    for t in ts.results
+        if !t.result
+            return 1
+        end
+    end
+    return 0
+end
 
 macro jtestset(args...)
     isempty(args) && error("No arguments to @testset")
