@@ -30,7 +30,8 @@ function evaluate_tests(arr)::JUnitTestSet
 end
 
 function check_test_results(ts::JUnitTestSet)
-    # Return 1 if any tests have failed, otherwise return 0. Handy for CI
+    # Return 1 if any tests have failed, otherwise return 0. Handy for CIgit status
+    
     for t in ts.results
         if !t.result
             return 1
